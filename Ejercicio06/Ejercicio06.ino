@@ -13,12 +13,12 @@ void setup(){
 void loop(){
   direccion=digitalRead(boton);
   if(direccion==0){
-    direccion=1-direccion;
+    direccion=direccion-1;
   }
   digitalWrite(posicion,HIGH);
   delay(120);
   digitalWrite(posicion,LOW);
-  
+
   if(direccion==1){
     posicion++;
   }
@@ -28,11 +28,9 @@ void loop(){
   if(posicion>7){
     posicion=0;  
   }
- 
+
   if(posicion<0){
     posicion=7;
   }
-
 }
-
 
