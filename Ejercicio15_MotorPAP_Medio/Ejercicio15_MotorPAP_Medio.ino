@@ -4,10 +4,14 @@ const byte pasos[8]={
   1,3,2,6,4,12,8,9};
 char indice=0;
 /*
- Primer paso  3=0011
- Segundo paso 6=0110
- Tercer paso 12=1100
- Cuarto paso  9=1001
+ Primer paso  1=0001
+ Segundo paso 3=0011
+ Tercer paso  2=0010
+ Cuarto paso  6=0110
+ Quinto paso  4=0100
+ Sexto paso  12=1100
+ Septimo paso 8=1000
+ Octavo paso  9=1001
  */
 
 void setup(){
