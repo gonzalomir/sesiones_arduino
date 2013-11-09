@@ -1,35 +1,30 @@
 #include <TimerOne.h>
+const int NUM_DIGITOS=4;
 
-byte digito[16];
-char indice;
+byte indice=0;
 int numero=0;
-int pin_display[4]={11,10,9,8};
+
+byte pin_display[4]={8,9,10,11}; //pines de control de cada display
+byte digito[16];  //Coleccion de caracteres
+byte num_descompuesto[4];
 
 void setup(){
+  pinMode(11,OUTPUT);
+  pinMode(10,OUTPUT);
+  pinMode(9,OUTPUT);
+  pinMode(8,OUTPUT);
   cargar_digitos();
-  Timer1.initialize(10000); // Expresion en microsegundos
-  Timer1.attachInterrupt(setNumero);
   DDRD=255;
+  Timer1.initialize(1500); // Expresion en microsegundos
+  Timer1.attachInterrupt(updateDisplay);
+
 }
 
 void loop(){
-
-  numero=random();
-  delay(500);
-}
-
-void setNumero(){
-  int aux;
-  for(int i=0;i<4;i++){
-    digitalWrite(pin_display[i],HIGH);
-    aux=numero%10;
-    PORTD=aux;
-    numero=(numero-aux)/10;
-    delay(16);
-    digitalWrite(pin_display[i],LOW);
+  for(int i=0;i<10000;i++){
+    writeNumero(i);
+    delay(100);
   }
-  
-
 }
 
 void cargar_digitos(){
@@ -50,3 +45,31 @@ void cargar_digitos(){
   digito[14]=B1111001; //E
   digito[15]=B1110001; //F
 }
+
+
+void updateDisplay(){
+  digitalWrite(pin_display[0],LOW);
+  digitalWrite(pin_display[1],LOW);  
+  digitalWrite(pin_display[2],LOW);  
+  digitalWrite(pin_display[3],LOW);
+
+  digitalWrite(pin_display[indice],HIGH);
+  PORTD=digito[num_descompuesto[indice]];
+  indice++;
+  if(indice==NUM_DIGITOS){
+    indice=0;
+  }
+}
+
+void writeNumero(int num){
+  int aux;
+  numero=num;
+  for(int i=0;i<NUM_DIGITOS;i++){
+    aux=numero%10;
+    numero=(numero-aux)/10;
+    num_descompuesto[i]=aux;
+  }
+}
+
+
+
